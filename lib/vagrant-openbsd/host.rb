@@ -6,8 +6,9 @@ module VagrantPlugins
       def detect?(env)
         result = Vagrant::Util::Subprocess.execute("/bin/sh", "-c",
           "uname -s | grep -q OpenBSD")
+        return result
       end
-      result
+      false
     end
   end
 end
