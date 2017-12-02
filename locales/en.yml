@@ -1,0 +1,6 @@
+en:
+  vagrant:
+    errors:
+      openbsd_nfs_whitespace: |-
+        OpenBSD hosts do not support sharing directories with whitespace in
+        their path. Please adjust your path accordingly.
