@@ -1,4 +1,4 @@
-*NOTE* Work in progess - DO NOT USE
+*NOTE* Work in progess - DO NOT WHINE
 
 # vagrant-openbsd
 Vagrant plugin to detect/support OpenBSD as a "Host"
