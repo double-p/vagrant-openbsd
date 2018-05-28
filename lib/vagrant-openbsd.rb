@@ -6,6 +6,13 @@ module VagrantPlugins
   module OpenBSD
     lib_path = Pathname.new(File.expand_path("../vagrant-openbsd", __FILE__))
 
+    # This initializes the i18n load path so that the plugin-specific
+    # translations work.
+    def self.init_i18n
+      I18n.load_path << File.expand_path("locales/en.yml", source_root)
+      I18n.reload!
+    end
+
     # This initializes the logging so that our logs are outputted at
     # the same level as Vagrant core logs.
     def self.init_logging
