@@ -3,7 +3,7 @@ require "pathname"
 require "vagrant-openbsd/plugin"
 
 module VagrantPlugins
-  module HostOpenBSD
+  module OpenBSD
     lib_path = Pathname.new(File.expand_path("../vagrant-openbsd", __FILE__))
 
     # This initializes the logging so that our logs are outputted at

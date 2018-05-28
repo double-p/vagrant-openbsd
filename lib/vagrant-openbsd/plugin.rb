@@ -1,10 +1,10 @@
 require "vagrant"
 
 module VagrantPlugins
-  module HostOpenBSD
+  module OpenBSD
     class Plugin < Vagrant.plugin("2")
       name "OpenBSD host"
-      description "OpenBSD host support."
+      description "OpenBSD host and VMM provider support."
 
       host("openbsd", "bsd") do
         require_relative "host"

@@ -1,7 +1,7 @@
 require "vagrant"
 
 module VagrantPlugins
-  module HostOpenBSD
+  module OpenBSD
     class Host < Vagrant.plugin("2", :host)
       def detect?(env)
         result = Vagrant::Util::Subprocess.execute("/bin/sh", "-c",

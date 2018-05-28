@@ -5,13 +5,13 @@ require "vagrant-openbsd/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "vagrant-openbsd"
-  spec.version       = VagrantPlugins::HostOpenBSD::VERSION
+  spec.version       = VagrantPlugins::OpenBSD::VERSION
   spec.authors       = ["Philipp Buehler"]
   spec.email         = ["pbuehler@sysfive.com"]
 
-  spec.summary       = %q{OpenBSD host caps for vagrant.}
+  spec.summary       = %q{OpenBSD host and provider plugin for vagrant.}
 
-  spec.description   = %q{Adds OpenBSD host detection + capabilites for Vagrant.}
+  spec.description   = %q{Adds OpenBSD host detectionm capabilites and support for vmd(8) provider for Vagrant.}
   spec.homepage      = "https://github.com/double-p/vagrant-openbsd"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler", "~> 1.16"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "vagrant-spec", "~> 1.4.0"
+  spec.add_development_dependency "bundler", "~> 1.15"
+  spec.add_development_dependency "rake", "> 10.0"
+  spec.add_development_dependency "vagrant-spec", "> 1.4.0"
 end

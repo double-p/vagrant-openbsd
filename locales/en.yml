@@ -4,3 +4,8 @@ en:
       openbsd_nfs_whitespace: |-
         OpenBSD hosts do not support sharing directories with whitespace in
         their path. Please adjust your path accordingly.
+  vagrant_openbsd:
+    system_version_too_low: |-
+      VMM support was added in 5.9 - please upgrade OpenBSD.
+    system_cpu_incapable: |-
+      CPU cannot VT-d - running within virtualization?

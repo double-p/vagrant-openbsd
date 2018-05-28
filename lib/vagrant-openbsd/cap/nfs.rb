@@ -4,7 +4,7 @@ require "vagrant/util/retryable"
 require Vagrant.source_root.join("plugins", "hosts", "bsd", "cap", "nfs")
 
 module VagrantPlugins
-  module HostOpenBSD
+  module OpenBSD
     module Cap
       class NFS
         def self.nfs_export(environment, ui, id, ips, folders)
