@@ -1,11 +1,28 @@
-*NOTE* Work in progess - DO NOT WHINE
+# Vagrant OpenBSD vmd(8) Provider
 
-# vagrant-openbsd
-Vagrant plugin to detect/support OpenBSD as a "Host"
+*NOTE* This is absolut alpha work-in-progress - DO NOT USE
 
-This adds OpenBSD specific detection and capabilities similar to FreeBSD.
+This is a [Vagrant](http://www.vagrantup.com) 1.5+ plugin that adds an
+[OpenBSD vmd(8)](https://man.openbsd.org/vmd) provider to Vagrant,
+allowing Vagrant to control and provision machines on OpenBSD.
+
+## Features
+
+* Boot VM instances.
+* SSH into the instances.
+* Provision the instances with any built-in Vagrant provisioner.
+* Setup of networking
 
 ## Installation
-- clone repository
-- rake build
-- vagrant plugin install pkg/vagrant-openbsd-0.1.0.gem
+
+```
+$ vagrant plugin install /path/to/vagrant-openbsd-provider.gem
+```
+
+## Usage
+
+Once the plugin is installed, you use it with `vagrant up` by specifing
+the `openbsd-provider` provider:
+```
+$ vagrant up --provider=openbsd-provider
+```
