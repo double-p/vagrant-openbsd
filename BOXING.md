@@ -13,9 +13,12 @@ The configurations here are used as defaults.
 To create such an image, use the VMM base tools like this:
 ````
 vmctl create disk.img -s 2G
-vmctl start "myvm" -m 1G -L -i 1 -b /bsd.rd -d disk.img -c
+doas vmctl start "myvm" -m 1G -L -i 1 -b /bsd.rd -d disk.img -c
 ````
 Run through the installer and properly "halt -p" the VM.
+````
+doas vmctl stop "myvm"
+````
 
 ## Box bundling
 It's a simple tar archive:
