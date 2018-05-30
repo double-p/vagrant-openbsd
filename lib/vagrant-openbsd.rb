@@ -1,14 +1,13 @@
 require "pathname"
 
 require "vagrant-openbsd/plugin"
+require "vagrant-openbsd/version"
 
 module VagrantPlugins
   module OpenBSD
     lib_path = Pathname.new(File.expand_path("../vagrant-openbsd", __FILE__))
     autoload :Errors, lib_path.join('errors')
     autoload :Driver, lib_path.join('driver')
-
-    lib_path = Pathname.new(File.expand_path("../vagrant-openbsd", __FILE__))
 
     # This initializes the i18n load path so that the plugin-specific
     # translations work.
@@ -25,9 +24,6 @@ module VagrantPlugins
       begin
         level = Log4r.const_get(ENV["VAGRANT_LOG"].upcase)
       rescue NameError
-        # This means that the logging constant wasn't found,
-        # which is fine. We just keep `level` as `nil`. But
-        # we tell the user.
         level = nil
       end
 

@@ -3,6 +3,10 @@ require "vagrant/action/builder"
 
 # all heavily based on https://github.com/jesa7955/vagrant-bhyve
 
+# all vagrant-actions (up, halt,..) are redirected to here as
+# action_up.
+# This file delegates to action/XXX.rb and actions might
+# call functions in driver.rb
 module VagrantPlugins
   module OpenBSD
     module Action
