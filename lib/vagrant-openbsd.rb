@@ -5,6 +5,10 @@ require "vagrant-openbsd/plugin"
 module VagrantPlugins
   module OpenBSD
     lib_path = Pathname.new(File.expand_path("../vagrant-openbsd", __FILE__))
+    autoload :Errors, lib_path.join('errors')
+    autoload :Driver, lib_path.join('driver')
+
+    lib_path = Pathname.new(File.expand_path("../vagrant-openbsd", __FILE__))
 
     # This initializes the i18n load path so that the plugin-specific
     # translations work.

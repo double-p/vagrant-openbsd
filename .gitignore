@@ -1,5 +1,7 @@
 # scratch notes
 temphack
+.vagrant
+*log
 
 *.lock
 *.gem

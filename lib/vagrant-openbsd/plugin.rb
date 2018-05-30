@@ -4,6 +4,8 @@ rescue LoadError
   raise "The OpenBSD provider must be run within Vagrant."
 end
 
+require "vagrant-openbsd/host.rb"
+
 # This is a sanity check to make sure no one is attempting to install
 # this into an early Vagrant version.
 if Vagrant::VERSION < "1.1.0"
@@ -22,7 +24,7 @@ module VagrantPlugins
         #Config
       #end
 
-      provider "vagrant-openbsd" do
+      provider "openbsd" do
         # init locales and logging
         OpenBSD.init_i18n
         OpenBSD.init_logging
@@ -33,7 +35,7 @@ module VagrantPlugins
       end
 
 # Host detection and capabilities
-      host("openbsd", "bsd") do
+      host("openbsd") do
         require_relative "host"
         Host
       end
