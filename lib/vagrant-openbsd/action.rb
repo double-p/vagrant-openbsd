@@ -1,5 +1,6 @@
 require "pathname"
 require "vagrant/action/builder"
+require "vagrant-openbsd/driver"
 
 # all heavily based on hyperv action.rb
 

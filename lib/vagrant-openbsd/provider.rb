@@ -1,7 +1,6 @@
 require "vagrant"
 
 require "vagrant-openbsd/action"
-require "vagrant-openbsd/driver"
 
 module VagrantPlugins
   module OpenBSD
@@ -14,6 +13,21 @@ module VagrantPlugins
       def driver
         return @driver if @driver
         @driver = Driver.new(@machine)
+      end
+
+      def state
+        # Run a custom action we define called "read_state" which does
+        # what it says. It puts the state in the `:machine_state_id`
+        # key in the environment. #from cloudstack
+        env = @machine.action("read_state")
+        state_id = env[:machine_state_id]
+
+        # Get the short and long description
+        short    = I18n.t("vagrant_openbsd.states.short_#{state_id}")
+        long     = I18n.t("vagrant_openbsd.states.long_#{state_id}")
+
+        # Return the MachineState object
+        Vagrant::MachineState.new(state_id, short, long)
       end
 
    # driver?
@@ -37,6 +51,11 @@ module VagrantPlugins
         action_method = "action_#{name}"
         return Action.send(action_method) if Action.respond_to?(action_method)
         nil
+      end
+
+      def to_s
+        id = @machine.id.nil? ? "new" : @machine.id
+        "OpenBSD (#{id})"
       end
 
     end

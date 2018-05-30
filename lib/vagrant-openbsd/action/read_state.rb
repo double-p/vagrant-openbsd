@@ -19,10 +19,11 @@ module VagrantPlugins
         end
 
         def read_state(machine)
+          puts "hello?"
           return :not_created if machine.id.nil?
 
           # Find the machine
-          server = vmctl_exec("status | grep -q #{machine.id})
+          server = vmctl_exec("status | grep -q #{machine.id}")
           if server.nil? || [:"shutting-down", :terminated].include?(server.state.downcase.to_sym)
             # The machine can't be found
             env[:ui].detail("read_state not found")
