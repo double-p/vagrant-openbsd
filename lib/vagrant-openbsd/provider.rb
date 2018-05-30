@@ -1,6 +1,7 @@
 require "vagrant"
 
 require "vagrant-openbsd/action"
+require "vagrant-openbsd/driver"
 
 module VagrantPlugins
   module OpenBSD

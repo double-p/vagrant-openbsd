@@ -18,3 +18,30 @@ en:
             Booting VM with vmctl(8).
           wait_until_up: |-
             Please wait for a while until we can ssh into box.
+    states:
+      short_not_created: |-
+        not created
+      long_not_created: |-
+        The instance is not created. Run `vagrant up` to create it.
+
+      short_starting: |-
+        starting
+      long_starting: |-
+        The instance is starting.
+
+      short_stopped: |-
+        stopped
+      long_stopped: |-
+        The instance is stopped. Run `vagrant up` to start it.
+
+      short_stopping: |-
+        stopping
+      long_stopping: |-
+        The instance is stopping. Wait until is completely stopped to
+        run `vagrant up` and start it.
+
+      short_running: |-
+        running
+      long_running: |-
+        The instance is running. To stop this machine, you can run
+        `vagrant halt`. To destroy the machine, you can run `vagrant destroy`.
