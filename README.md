@@ -17,7 +17,11 @@ allowing Vagrant to control and provision machines on OpenBSD.
 
 ```
 $ vagrant plugin install /path/to/vagrant-openbsd-provider.gem
+$ doas pkg_add gtar-1.29
+$ doas ln -s /usr/local/bin/tar /usr/local/bin/bsdtar
 ```
+Yes. The OpenBSD tar is 'pax' and doesnt know all the
+used options and I cannot make this call OS specific currently
 
 ## Usage
 

@@ -23,3 +23,7 @@ It's a simple tar archive:
 tar zcf myvm.box ./metadata.json ./Vagrantfile ./disk.img
 ````
 
+## Adding the box
+````
+vagrant box add --provider=openbsd --name=myvm myvm.box
+````
