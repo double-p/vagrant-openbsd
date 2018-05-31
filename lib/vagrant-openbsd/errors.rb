@@ -15,6 +15,10 @@ module VagrantPlugins
 	error_key(:system_cpu_incapable)
       end
 
+      class BoxInvalid < OpenBSDError
+	error_key(:box_invalid)
+      end
+
     end
   end
 end

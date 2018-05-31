@@ -9,6 +9,9 @@ en:
       VMM support was added in 5.9 - please upgrade OpenBSD.
     system_cpu_incapable: |-
       CPU cannot VT-d - running within virtualization?
+    errors:
+      box_invalid: |-
+        The box was found to be invalid
     action:
       vm:
         boot:
