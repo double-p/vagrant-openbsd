@@ -12,8 +12,9 @@ module VagrantPlugins
         end
 
         def call(env)
-          vm_dir = env[:machine].box.directory.join("Virtual Machines")
-          hd_dir = env[:machine].box.directory.join("Virtual Hard Disks")
+          # need this later when multiple disks
+          vm_dir = env[:machine].box.directory
+          hd_dir = env[:machine].box.directory
           memory = env[:machine].provider_config.memory
           cpus = env[:machine].provider_config.cpus
           vmname = env[:machine].provider_config.vmname
@@ -25,7 +26,7 @@ module VagrantPlugins
           env[:ui].output("Configured vmname is #{vmname}") if vmname
 
           if !vm_dir.directory? || !hd_dir.directory?
-            raise Errors::BoxInvalid
+            raise "Box not valid: #{vm_dir} - #{hd_dir}"
           end
 
           config_path = nil
@@ -60,6 +61,7 @@ module VagrantPlugins
           source_path = image_path.to_s
           dest_path = env[:machine].data_dir.join("Virtual Hard Disks").join("#{image_filename}#{image_ext}").to_s
 
+          options = options || {}
           options[:memory] = memory if memory
           options[:cpus] = cpus if cpus
           options[:vmname] = vmname if vmname
