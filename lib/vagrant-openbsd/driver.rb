@@ -55,6 +55,9 @@ module VagrantPlugins
           message: e.to_s
       end
 
+      def import(source_path, dest_path, options)
+        FileUtils.copy(source_path, dest_path)
+      end
 
       def check_vmm_support
         result = File.exist?("/dev/vmm")
