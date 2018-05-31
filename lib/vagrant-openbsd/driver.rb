@@ -14,17 +14,54 @@ module VagrantPlugins
         @machine = machine
         @logger = Log4r::Logger.new("vagrant_openbsd::driver::initialize")
         if Process.uid == 0
-          @vmctl = '/usr/sbin/vmctl'
+          @vmctl = 'vmctl'
         else
-          @vmctl = '/usr/bin/doas /usr/sbin/vmctl'
+          @vmctl = 'doas /usr/sbin/vmctl'
         end
+        @sudo = 'doas'
       end
+
+      def execute(*command, &block)
+        # Get the options hash if it exists
+        opts = {}
+        opts = command.pop if command.last.is_a?(Hash)
+
+        tries = 0
+        tries = 3 if opts[:retryable]
+
+        # Variable to store our execution result
+        r = nil
+        r = raw(*command, &block)
+        r.stdout
+      end
+      # Executes a command and returns the raw result object.
+      def raw(*command, &block)
+        int_callback = lambda do
+          @interrupted = true
+
+          # We have to execute this in a thread due to trap contexts
+          # and locks.
+          Thread.new { @logger.info("Interrupted.") }.join
+        end
+
+        # Append in the options for subprocess
+        command << { notify: [:stdout, :stderr] }
+
+        Vagrant::Util::Busy.busy(int_callback) do
+          Vagrant::Util::Subprocess.execute(@vmctl, *command, &block)
+        end
+      rescue Vagrant::Util::Subprocess::LaunchError => e
+        raise Vagrant::Errors::OpenBSDError,
+          message: e.to_s
+      end
+
 
       def check_vmm_support
         result = File.exist?("/dev/vmm")
         raise Errors::SystemVersionIsTooLow if result == 0
-        result = exec("#{@sudo} /usr/sbin/rcctl -f check vmd")
+        Vagrant::Util::Subprocess.execute("#{@sudo}", "rcctl -f check vmd")
         raise Errors::SystemCPUincapable if result == 1
+        return true
       end
 
       def vmctl_exec(*command, &block)
