@@ -13,13 +13,10 @@ module VagrantPlugins
 
         def call(env)
           env[:machine_state_id] = read_state(env[:machine])
-
-          env[:ui].detail("read_state in action")
           @app.call(env)
         end
 
         def read_state(machine)
-          puts "hello?"
           return :not_created if machine.id.nil?
 
           # Find the machine
