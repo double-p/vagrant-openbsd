@@ -47,7 +47,7 @@ module VagrantPlugins
         command << { notify: [:stdout, :stderr] }
 
         Vagrant::Util::Busy.busy(int_callback) do
-          Vagrant::Util::Subprocess.execute(@vmctl, *command, &block)
+          Vagrant::Util::Subprocess.execute(*command, &block)
         end
       rescue Vagrant::Util::Subprocess::LaunchError => e
         raise Vagrant::Errors::OpenBSDError,
@@ -67,16 +67,20 @@ module VagrantPlugins
         return true
       end
 
-      def vmctl_exec(command, &result)
-        Vagrant::Util::Subprocess.execute("/bin/sh", "-c",
-           "#{@sudo} vmctl #{command} | sed 1d", &result)
+      def vmctl_exec(command)
+        block = nil
+        ret = execute("/bin/sh", "-c", "#{@sudo} vmctl #{command} | sed -n 2p", &block)
+        ret
       end
 
       def get_state(id)
-        result = nil
-        vmctl_exec("status #{id}", &result)
-        result
+        result = vmctl_exec("status #{id}")
+        state = :running if result.to_s.match(/ttyp/)
+        state = :stopping if result.to_s.match(/stop$/)
+        state = :stopped if result.to_s.match(/-       -/)
+        state
       end
+
     end
   end
 end

@@ -14,7 +14,7 @@ module VagrantPlugins
         end
 
         def call(env)
-          env[:machine].id = SecureRandom.hex(15)
+          env[:machine].id = SecureRandom.hex(12)
           # need this later when multiple disks
           vm_dir = env[:machine].box.directory
           hd_dir = env[:machine].box.directory

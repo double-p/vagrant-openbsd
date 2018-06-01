@@ -5,7 +5,7 @@ require "vagrant-openbsd/driver"
 # all heavily based on hyperv action.rb
 
 # all vagrant-actions (up, halt,..) are redirected to here as
-# action_up.
+# action_xyz.
 # This file delegates some to action/whatever.rb and actions might
 # call functions in driver.rb
 module VagrantPlugins
@@ -150,13 +150,6 @@ module VagrantPlugins
         end
       end
 
-      def self.action_read_state
-        Vagrant::Action::Builder.new.tap do |b|
-          b.use ConfigValidate
-          b.use ReadState
-        end
-      end
-
       def self.action_ssh
         Vagrant::Action::Builder.new.tap do |b|
           b.use ConfigValidate
@@ -274,7 +267,6 @@ module VagrantPlugins
       autoload :DeleteVM, action_root.join("delete_vm")
       autoload :Import, action_root.join("import")
       autoload :IsWindows, action_root.join("is_windows")
-      autoload :ReadState, action_root.join("read_state")
       autoload :ResumeVM, action_root.join("resume_vm")
       autoload :StartInstance, action_root.join('start_instance')
       autoload :StopInstance, action_root.join('stop_instance')

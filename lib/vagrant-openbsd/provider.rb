@@ -53,6 +53,25 @@ module VagrantPlugins
         nil
       end
 
+      def state
+        state_id = nil
+        state_id = :not_created unless @machine.id
+        state_id = :not_created if !state_id && !@machine.id
+        # Query the driver for the current state of the machine
+        state_id = driver.get_state(@machine.id) if @machine.id && !state_id
+        state_id = :unknown unless state_id
+
+        long  = I18n.t("vagrant_openbsd.states.long_#{state_id}")
+
+        # If we're not created, then specify the special ID flag
+        if state_id == :not_created
+          state_id = Vagrant::MachineState::NOT_CREATED_ID
+        end
+
+        # Return the MachineState object
+        Vagrant::MachineState.new(state_id, state_id, long)
+      end
+
       def to_s
         id = @machine.id.nil? ? "new" : @machine.id
         "OpenBSD (#{id})"
