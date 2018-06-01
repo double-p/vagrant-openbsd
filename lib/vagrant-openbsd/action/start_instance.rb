@@ -4,11 +4,12 @@ module VagrantPlugins
       class StartInstance
         def initialize(app, env)
           @app = app
+          @machine = env[:machine]
         end
 
         def call(env)
           env[:ui].output('Starting the machine...')
-          env[:machine].provider.driver.start
+          @machine.provider.driver.start(@machine)
           @app.call(env)
         end
       end

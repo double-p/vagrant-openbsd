@@ -81,6 +81,15 @@ module VagrantPlugins
         state
       end
 
+      def start(machine)
+        vmconf = File.join(machine.data_dir, "vmctl.conf")
+        vmctl_exec("load #{vmconf}")
+      end
+
+      def stop(id)
+        vmctl_exec("stop #{id}")
+      end
+
     end
   end
 end

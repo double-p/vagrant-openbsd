@@ -4,11 +4,12 @@ module VagrantPlugins
       class StopInstance
         def initialize(app, env)
           @app    = app
+          @machine = env[:machine]
         end
 
         def call(env)
           env[:ui].info("Stopping the machine...")
-          env[:machine].provider.driver.stop
+          @machine.provider.driver.stop(@machine.id)
           @app.call(env)
         end
       end
