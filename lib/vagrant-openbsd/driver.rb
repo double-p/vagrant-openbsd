@@ -14,11 +14,10 @@ module VagrantPlugins
         @machine = machine
         @logger = Log4r::Logger.new("vagrant_openbsd::driver::initialize")
         if Process.uid == 0
-          @vmctl = 'vmctl'
+          @sudo = ''
         else
-          @vmctl = 'doas /usr/sbin/vmctl'
+          @sudo = 'doas'
         end
-        @sudo = 'doas'
       end
 
       def execute(*command, &block)
@@ -62,15 +61,22 @@ module VagrantPlugins
       def check_vmm_support
         result = File.exist?("/dev/vmm")
         raise Errors::SystemVersionIsTooLow if result == 0
-        Vagrant::Util::Subprocess.execute("#{@sudo}", "rcctl -f check vmd")
+        raise Errors::SystemCPUincapable if !
+          Vagrant::Util::Subprocess.execute("/bin/sh", "-c", "#{@sudo} rcctl -f check vmd")
         raise Errors::SystemCPUincapable if result == 1
         return true
       end
 
-      def vmctl_exec(*command, &block)
-        Vagrant::Util::Subprocess.execute(@vmctl, *command, &block)
+      def vmctl_exec(command, &result)
+        Vagrant::Util::Subprocess.execute("/bin/sh", "-c",
+           "#{@sudo} vmctl #{command} | sed 1d", &result)
       end
 
+      def get_state(id)
+        result = nil
+        vmctl_exec("status #{id}", &result)
+        result
+      end
     end
   end
 end
