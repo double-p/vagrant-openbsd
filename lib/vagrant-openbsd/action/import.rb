@@ -1,6 +1,7 @@
 require "fileutils"
 require 'vagrant/util/template_renderer'
 require "log4r"
+require "securerandom"
 
 module VagrantPlugins
   module OpenBSD
@@ -13,6 +14,7 @@ module VagrantPlugins
         end
 
         def call(env)
+          env[:machine].id = SecureRandom.hex(15)
           # need this later when multiple disks
           vm_dir = env[:machine].box.directory
           hd_dir = env[:machine].box.directory
@@ -73,8 +75,7 @@ module VagrantPlugins
           # chicken/egg to get a provider ID ..
           File.open(File.join(env[:machine].data_dir, "vmctl.conf"), "w") do |f|
             f.write(Vagrant::Util::TemplateRenderer.render("vmctl_conf", {
-              name: env[:machine].name.to_s,
-              id: env[:machine].id,
+              name: env[:machine].id.to_s,
               boot_disk: dest_path,
               owner: env[:machine].uid.to_s,
               template_root: template_root
