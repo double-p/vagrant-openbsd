@@ -1,4 +1,6 @@
-           vm "<%= name %><%= id %>" {
-                   memory 1G
-                   disk "<%= boot_disk %>"
-           }
+vm "<%= name %>" {
+  memory 1G
+  disk "<%= boot_disk %>"
+  owner "<%= vmowner %>"
+  local interface group <%= name %>
+}

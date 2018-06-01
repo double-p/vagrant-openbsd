@@ -33,6 +33,11 @@ module VagrantPlugins
         #Cap::PublicAddress
       #end
 
+      #guest_capability("openbsd", "change_host_name") do
+        #require_relative "guest_hostname"
+        #Guest::ChangeHostName
+      #end
+
 # Host detection and capabilities, go elsewhere?
       host("openbsd") do
         require_relative "host"

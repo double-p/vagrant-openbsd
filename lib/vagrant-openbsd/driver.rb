@@ -76,18 +76,29 @@ module VagrantPlugins
       def get_state(id)
         result = vmctl_exec("status #{id}")
         state = :running if result.to_s.match(/ttyp/)
+        state = :stopped if ! result.to_s.match(/ttyp/)
         state = :stopping if result.to_s.match(/stop$/)
-        state = :stopped if result.to_s.match(/-       -/)
         state
       end
 
       def start(machine)
-        vmconf = File.join(machine.data_dir, "vmctl.conf")
-        vmctl_exec("load #{vmconf}")
+        result = vmctl_exec("status #{machine.id}")
+        if result.to_s.match(/#{machine.id}/) && ! result.to_s.match(/ttyp/)
+          vmctl_exec("start #{machine.id}")
+        else
+          vmconf = File.join(machine.data_dir, "vmctl.conf")
+          vmctl_exec("load #{vmconf}")
+        end
       end
 
       def stop(id)
         vmctl_exec("stop #{id}")
+      end
+
+      def read_tap_ip(device)
+        block = nil
+        ip = execute("/bin/sh", "-c", "ifconfig #{device} | awk '/netmask/ { print $2 }'", &block)
+        ip
       end
 
     end

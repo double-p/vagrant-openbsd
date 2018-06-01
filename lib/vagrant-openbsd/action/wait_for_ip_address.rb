@@ -24,23 +24,24 @@ module VagrantPlugins
 
               # Try to get the IP
               begin
-                network_info = env[:machine].provider.driver.read_guest_ip
-                guest_ip = network_info["ip"]
+                tap_ip = env[:machine].provider.driver.read_tap_ip(env[:machine].id).chomp
 
-                if guest_ip
+                if tap_ip
                   begin
-                    IPAddr.new(guest_ip)
+                    IPAddr.new(tap_ip)
+                    guest_ip = tap_ip.succ
                     break
                   rescue IPAddr::InvalidAddressError
                     # Ignore, continue looking.
                     @logger.warn("Invalid IP address returned: #{guest_ip}")
                   end
+                sleep 3
                 end
               rescue Errors::OpenBSDError
                 # Ignore, continue looking.
                 @logger.warn("Failed to read guest IP.")
               end
-              sleep 1
+              sleep 3
             end
           end
 

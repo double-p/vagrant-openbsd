@@ -15,7 +15,12 @@ To create such an image, use the VMM base tools like this:
 vmctl create disk.img -s 2G
 doas vmctl start "myvm" -m 1G -L -i 1 -b /bsd.rd -d disk.img -c
 ````
-Run through the installer and properly "halt -p" the VM.
+Run through the installer add doas and HALT the machine
+````
+echo 'permit nopass keepenv root' > /mnt/etc/doas.conf
+halt -p
+````
+Stop the vm on host
 ````
 doas vmctl stop "myvm"
 ````

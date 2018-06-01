@@ -103,6 +103,7 @@ module VagrantPlugins
 
             b1.use ResumeVM
             b1.use WaitForIPAddress
+            sleep 2 #XXX noisy debug
             b1.use WaitForCommunicator, [:running] # from builtin
           end
         end
@@ -126,10 +127,11 @@ module VagrantPlugins
               #b2.use NetSetMac
               b2.use StartInstance
               b2.use WaitForIPAddress
+              sleep 10 # noisy debug
               b2.use WaitForCommunicator, [:running]
               #b2.use SyncedFolderCleanup
               #b2.use SyncedFolders
-              b2.use SetHostname
+              #dafuq#b2.use SetHostname
             end
           end
         end

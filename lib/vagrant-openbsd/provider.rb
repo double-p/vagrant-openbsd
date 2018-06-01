@@ -1,4 +1,5 @@
 require "vagrant"
+require "ipaddr"
 
 require "vagrant-openbsd/action"
 
@@ -30,16 +31,14 @@ module VagrantPlugins
         Vagrant::MachineState.new(state_id, short, long)
       end
 
-   # driver?
       def ssh_info
-        # We just return nil if were not able to identify the VM's IP and
-        # let Vagrant core deal with it like docker provider does
         return nil if state.id != :running
-        tap_device      = driver.get_attr('tap')
-        ip              = driver.get_ip_address(tap_device) unless tap_device.length == 0
-        return nil if !ip
+        tap_ip = driver.read_tap_ip(@machine.id).chomp
+        IPAddr.new(tap_ip)
+        guest_ip = tap_ip.succ
+        return nil if !guest_ip
         ssh_info = {
-          host: ip,
+          host: guest_ip,
           port: 22,
         }
       end

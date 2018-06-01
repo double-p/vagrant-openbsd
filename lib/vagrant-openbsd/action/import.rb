@@ -14,13 +14,16 @@ module VagrantPlugins
         end
 
         def call(env)
-          env[:machine].id = SecureRandom.hex(12)
+          machine_id = SecureRandom.hex(7)
+          machine_id << "g" # if-groupnames shall not end with a number
+          env[:machine].id = machine_id
           # need this later when multiple disks
           vm_dir = env[:machine].box.directory
           hd_dir = env[:machine].box.directory
           memory = env[:machine].provider_config.memory
           cpus = env[:machine].provider_config.cpus
           vmname = env[:machine].provider_config.vmname
+          vmowner = ENV['USER']
 
           env[:ui].output("Configured startup memory is #{memory}") if memory
           env[:ui].output("Configured cpus number is #{cpus}") if cpus
@@ -77,7 +80,7 @@ module VagrantPlugins
             f.write(Vagrant::Util::TemplateRenderer.render("vmctl_conf", {
               name: env[:machine].id.to_s,
               boot_disk: dest_path,
-              owner: env[:machine].uid.to_s,
+              owner: vmowner,
               template_root: template_root
             }))
           end
