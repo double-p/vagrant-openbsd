@@ -7,8 +7,8 @@ module VagrantPlugins
         end
 
         def call(env)
-          env[:ui].info("Deleting the machine...")
-          env[:machine].provider.driver.delete_vm
+          env[:ui].info("Deleting the machine instance...")
+          env[:machine].provider.driver.delete_vm(env[:machine])
           @app.call(env)
         end
       end

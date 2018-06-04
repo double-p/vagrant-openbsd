@@ -36,17 +36,19 @@ module VagrantPlugins
               next
             end
 
-            b1.use Call, DestroyConfirm do |env2, b2|
-              if !env2[:result]
-                b2.use MessageWillNotDestroy
+            b1.use Call, DestroyConfirm do |env1, b2|
+              if !env1[:result]
+                b2.use Message, I18n.t(
+                  'vagrant.commands.destroy.will_not_destroy',
+                  name: env1[:machine].name)
                 next
               end
-
-              b2.use ConfigValidate #all in config.rb done?
-              b2.use ProvisionerCleanup, :before
-              b2.use StopInstance
+              b2.use Call, IsState, :running do |env2, b3|
+                if env2[:result]
+                  b3.use action_halt
+                end
+              end
               b2.use DeleteVM
-              #b2.use SyncedFolderCleanup XXX
             end
           end
         end

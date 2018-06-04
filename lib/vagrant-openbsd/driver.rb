@@ -1,4 +1,5 @@
 require "log4r"
+require "fileutils"
 require "io/console"
 require "vagrant-openbsd/errors"
 require "vagrant/util/subprocess"
@@ -99,6 +100,10 @@ module VagrantPlugins
         block = nil
         ip = execute("/bin/sh", "-c", "ifconfig #{device} | awk '/netmask/ { print $2 }'", &block)
         ip
+      end
+
+      def delete_vm(machine)
+        FileUtils.rm_rf(machine.data_dir)
       end
 
     end
