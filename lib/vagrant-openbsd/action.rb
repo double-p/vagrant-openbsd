@@ -61,7 +61,7 @@ module VagrantPlugins
               next
             end
 
-            b2.use Call, GracefulHalt, :off, :running do |env2, b3|
+            b2.use Call, GracefulHalt, :stopped, :running do |env2, b3|
               if !env2[:result]
                 b3.use StopInstance
               end
@@ -116,6 +116,11 @@ module VagrantPlugins
               b1.use action_provision
               next
             end
+          b.use StartInstance
+          sleep 10 # noisy debug
+          b.use WaitForIPAddress
+          sleep 15 # noisy debug
+          b.use WaitForCommunicator, [:running]
 
             b1.use Call, IsState, :paused do |env2, b2|
               if env2[:result]
