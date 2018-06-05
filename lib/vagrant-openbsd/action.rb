@@ -123,6 +123,7 @@ module VagrantPlugins
           b.use WaitForIPAddress
           sleep 15 # noisy debug
           b.use WaitForCommunicator, [:running]
+          #b.use Network
 
             b1.use Call, IsState, :paused do |env2, b2|
               if env2[:result]
@@ -136,6 +137,7 @@ module VagrantPlugins
               b2.use WaitForIPAddress
               sleep 10 # noisy debug
               b2.use WaitForCommunicator, [:running]
+              #b2.use Network
               #b2.use SyncedFolderCleanup
               #b2.use SyncedFolders
               #dafuq#b2.use SetHostname
@@ -281,6 +283,7 @@ module VagrantPlugins
       autoload :StopInstance, action_root.join('stop_instance')
       autoload :SuspendVM, action_root.join("suspend_vm")
       autoload :WaitForIPAddress, action_root.join("wait_for_ip_address")
+      autoload :Network, action_root.join("network")
       #autoload :NetSetVLan, action_root.join("net_set_vlan")
       autoload :NetSetMac, action_root.join("net_set_mac")
       autoload :MessageWillNotDestroy, action_root.join("message_will_not_destroy")
