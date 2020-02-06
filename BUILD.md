@@ -33,5 +33,6 @@ bundle install # install (many) GEM dependecies
 rake build # build vagrant + plugin
 bundle exec vagrant plugin install pkg/vagrant-openbsd-0.1.0.gem
 bundle exec vagrant plugin list
+bundle install --binstubs
 ````
 
